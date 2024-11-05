@@ -119,5 +119,55 @@ public class FitxategienOperazioak {
 			System.out.println("Ez da fitxategia hutsik utzi.");
 		}
 	}
+	
+	 public static void bilatuErregistroBat(File fitxategia, Scanner sc) {
+	        System.out.println("Sartu kodea erregistroa bat bilatzeko:");
+	        String kodeaBilatu = sc.nextLine().trim(); // Leer el código a buscar
+	        boolean found = false;
+	        long posicion = 0; // Comenzar desde el principio del archivo
+
+	        try (RandomAccessFile raf = new RandomAccessFile(fitxategia, "r")) {
+	            // Verificar la longitud del archivo
+	            long totalBytes = raf.length();
+	            System.out.println("Luzera fitxategia: " + totalBytes + " bytes");
+
+	            // Leer línea por línea
+	            String line;
+	            while ((line = raf.readLine()) != null) {
+	                // Ignorar la primera línea de encabezado
+	                if (line.startsWith("PAISES 1.0")) {
+	                    continue;
+	                }
+
+	                // Separar la línea en campos usando ";" como delimitador
+	                String[] fields = line.split(";");
+
+	                if (fields.length >= 6) { // Asegurarse de que hay suficientes campos
+	                    String codigo = fields[0].trim(); // El primer campo es el código
+	                    String estatua = fields[1].trim(); // El segundo campo es el estado
+	                    int biziEsperantza = Integer.parseInt(fields[2].trim()); // El tercer campo es la esperanza de vida
+	                    String dataSortu = fields[3].trim(); // El cuarto campo es la fecha de creación
+	                    double poblazioa = Double.parseDouble(fields[4].trim()); // El quinto campo es la población
+	                    String kapitala = fields[5].trim(); // El sexto campo es la capital
+
+	                    // Comprobar si el código coincide con el que se busca
+	                    if (codigo.equals(kodeaBilatu)) {
+	                        System.out.printf("Aurkitutako erregistroa: %s; %s; %d; %s; %.2f; %s%n",
+	                                codigo, estatua, biziEsperantza, dataSortu, poblazioa, kapitala);
+	                        found = true;
+	                        break; // Termina la búsqueda si se encuentra
+	                    }
+	                } else {
+	                    System.out.println("Errorea: erregistroa ez da osatua.");
+	                }
+	            }
+
+	            if (!found) {
+	                System.out.println("Ez da aurkitu erregistro bat kodearekin: " + kodeaBilatu);
+	            }
+	        } catch (IOException e) {
+	            System.out.println("Errorea fitxategia irakurtzean: " + e.getMessage());
+	        }
+	    }
 
 }

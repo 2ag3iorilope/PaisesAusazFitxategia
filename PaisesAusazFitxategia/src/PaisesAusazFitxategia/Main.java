@@ -48,10 +48,10 @@ public class Main {
 				FitxategienOperazioak.fitxategiaHutsikUtzi(fitxategia, sc);
 				break;
 			case 3:
-
+				FitxategienOperazioak.bilatuErregistroBat(fitxategia, sc);
 				break;
 			case 4:
-
+				FitxategienOperazioak.irakurriRegistroa(fitxategia, 5);
 				break;
 			case 5:
 
