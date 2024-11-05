@@ -47,7 +47,7 @@ public class Main {
 				FitxategienOperazioak.fitxategiaBete(fitxategia);
 				break;
 			case 2:
-			
+				FitxategienOperazioak.fitxategiaHutsikUtzi(fitxategia, sc);
 				break;
 			case 3:
 				

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Scanner;
 
 public class FitxategienOperazioak {
     static String[] Kodea = { "31", "376", "90", "261", "685", "213", "291", "595", "30", "964" };
@@ -69,4 +70,25 @@ public class FitxategienOperazioak {
             System.out.println("Errorea fitxategia irakurtzean: " + e.getMessage());
         }
     }
+    
+    public static void fitxategiaHutsikUtzi(File fitxategia, Scanner sc) {
+        System.out.println("Hutsik utzi nahi duzu fitxategia? (bai/ez)");
+        String confirmation = sc.nextLine();
+        
+        if (confirmation.equalsIgnoreCase("bai")) {
+            try (RandomAccessFile raf = new RandomAccessFile(fitxategia, "rw")) {
+                // Sobreescribimos el contenido del archivo
+                raf.setLength(0); // Limpiar todo el archivo
+                raf.writeBytes("PAISES 1.0\n"); // Escribir solo el encabezado
+                
+                System.out.println("Fitxategia hutsik utzi da.");
+            } catch (IOException e) {
+                System.out.println("Errorea fitxategia hutsik uztean: " + e.getMessage());
+            }
+        } else {
+            System.out.println("Ez da fitxategia hutsik utzi.");
+        }
+    }
+    
+    
 }
