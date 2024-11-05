@@ -6,8 +6,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * The Class DirectorioaUtils.
+ */
 public class DirectorioaUtils {
-	
+
+	/**
+	 * Eskatu direktorioa.
+	 *
+	 * @param sc, gure eskanerra
+	 * @return gure direktorioa
+	 */
 	public static String EskatuDirektorioa(Scanner sc) {
 		String helbideOsoaString;
 		File dirFile;
@@ -26,9 +35,14 @@ public class DirectorioaUtils {
 
 		return helbideOsoaString;
 	}
-	
-	
-	
+
+	/**
+	 * Konprobatu edo sortu fitxategia.
+	 *
+	 * @param helbideOsoa    , gure fitxategiaren helbide osoa
+	 * @param fitxategiIzena , gure fitxategiaren izena
+	 * @return gure fitxategia
+	 */
 	public static File KonprobatuEdoSortuFitxategia(String helbideOsoa, String fitxategiIzena) {
 		File dirFile = new File(helbideOsoa);
 		File fitxatefiosoaFile = new File(dirFile, fitxategiIzena);

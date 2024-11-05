@@ -3,8 +3,6 @@ package PaisesAusazFitxategia;
 import java.io.File;
 import java.util.Scanner;
 
-
-
 public class Main {
 
 	public static void main(String[] args) {
@@ -20,7 +18,7 @@ public class Main {
 		File fitxategia = DirectorioaUtils.KonprobatuEdoSortuFitxategia(helbideOsoaString, fitxategiIzenaString);
 
 		int option;
-		
+
 		do {
 			System.out.println("\n=============================");
 			System.out.println("           MENUA            ");
@@ -43,32 +41,32 @@ public class Main {
 
 			switch (option) {
 			case 1:
-				
+
 				FitxategienOperazioak.fitxategiaBete(fitxategia);
 				break;
 			case 2:
 				FitxategienOperazioak.fitxategiaHutsikUtzi(fitxategia, sc);
 				break;
 			case 3:
-				
+
 				break;
 			case 4:
-				
+
 				break;
 			case 5:
-				
+
 				break;
 			case 6:
-		
+
 				break;
 			case 7:
-				
+
 				break;
 			case 8:
-			
+
 				break;
 			case 9:
-				
+
 				break;
 			case 10:
 
@@ -81,6 +79,4 @@ public class Main {
 		sc.close();
 	}
 
-	}
-
-
+}
