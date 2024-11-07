@@ -26,11 +26,11 @@ public class Main {
 			System.out.println("1. 🗂️ Fitxategia bete datuekin");
 			System.out.println("2. 🗑️ Fitxategia hutsik utzi");
 			System.out.println("3. 🔍 Bilatu eta erakutsi erregistroa");
-			System.out.println("4. 📊 Erregistroak enumeratu");
-			System.out.println("5. ➕ Erregistro berri bat gehitu");
-			System.out.println("6. ❌ Erregistro bat ezabatu");
-			System.out.println("7. 📁 Kopiatu fitxategia");
-			System.out.println("8. 📜 Kontatu fitxategiko lerroak");
+			System.out.println("4. 📊 Kapitala Bilatu");
+			System.out.println("5. ➕ Erregistro bat ezabatu");
+			System.out.println("6. ❌ Ikusi Ezabatutako Erregistroak");
+			System.out.println("7. 📁 Gehitu Erregistro bat");
+			System.out.println("8. 📜 Aldatu erregistro bat");
 			System.out.println("9. ✏️ Erregistro bat editatu");
 			System.out.println("10. Irten");
 			System.out.println("=============================");
@@ -51,19 +51,19 @@ public class Main {
 				FitxategienOperazioak.bilatuErregistroBat(fitxategia, sc);
 				break;
 			case 4:
-				FitxategienOperazioak.irakurriRegistroa(fitxategia, 5);
+				FitxategienOperazioak.bilatuKapitalarenIzenak(fitxategia, sc);
 				break;
 			case 5:
-
+				FitxategienOperazioak.ezabatuErregistroaLogikoa(fitxategia, sc);
 				break;
 			case 6:
-
+				FitxategienOperazioak.erakutsiEzabatutakoErregistroak(fitxategia);
 				break;
 			case 7:
-
+				FitxategienOperazioak.gehituErregistroa(fitxategia, sc);
 				break;
 			case 8:
-
+				FitxategienOperazioak.aldatuErregistroa(fitxategia, sc);
 				break;
 			case 9:
 
