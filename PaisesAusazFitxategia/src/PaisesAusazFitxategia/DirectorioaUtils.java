@@ -14,7 +14,7 @@ public class DirectorioaUtils {
 	/**
 	 * Eskatu direktorioa.
 	 *
-	 * @param sc, gure eskanerra
+	 * @param sc eskanerra
 	 * @return gure direktorioa
 	 */
 	public static String EskatuDirektorioa(Scanner sc) {

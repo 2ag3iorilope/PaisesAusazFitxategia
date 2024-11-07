@@ -48,7 +48,7 @@ public class FitxategienOperazioak {
 	/**
 	 * Fitxategia bete.
 	 *
-	 * @param fitxategia, gure fitxategia
+	 * @param fitxategia , gure fitxategia
 	 */
 	public static void fitxategiaBete(File fitxategia) {
 		try (RandomAccessFile raf = new RandomAccessFile(fitxategia, "rw")) {
@@ -73,8 +73,8 @@ public class FitxategienOperazioak {
 	/**
 	 * Irakurri registroa.
 	 *
-	 * @param fitxategia, gure fitxategia
-	 * @param index
+	 * @param fitxategia , gure fitxategia
+	 * @param index      , gure posizioa
 	 */
 	public static void irakurriRegistroa(File fitxategia, int index) {
 		try (RandomAccessFile raf = new RandomAccessFile(fitxategia, "r")) {
@@ -102,7 +102,7 @@ public class FitxategienOperazioak {
 	 * Fitxategia hutsik utzi.
 	 *
 	 * @param fitxategia, gure fitxategia
-	 * @param sc,         gure eskanerra
+	 * @param sc          , eskanerra
 	 */
 	public static void fitxategiaHutsikUtzi(File fitxategia, Scanner sc) {
 		System.out.println("Hutsik utzi nahi duzu fitxategia? (bai/ez)");
@@ -123,11 +123,17 @@ public class FitxategienOperazioak {
 		}
 	}
 
+	/**
+	 * Bilatu erregistro bat.
+	 *
+	 * @param fitxategia , gure fitxategia
+	 * @param sc         , eskanerra
+	 */
 	public static void bilatuErregistroBat(File fitxategia, Scanner sc) {
 		System.out.println("Sartu kodea erregistroa bat bilatzeko:");
 		String kodeaBilatu = sc.nextLine().trim();
 		boolean found = false;
-		long posicion = 0;
+		long posizioa = 0;
 
 		try (RandomAccessFile raf = new RandomAccessFile(fitxategia, "r")) {
 
@@ -170,6 +176,12 @@ public class FitxategienOperazioak {
 		}
 	}
 
+	/**
+	 * Bilatu kapitalaren izenak.
+	 *
+	 * @param fitxategia , gure fitxategia
+	 * @param sc         , eskanerra
+	 */
 	public static void bilatuKapitalarenIzenak(File fitxategia, Scanner sc) {
 		System.out.println("Sartu kapitala bilatzeko terminoa:");
 		String kapitalaBilatu = sc.nextLine().trim().toLowerCase();
@@ -212,28 +224,33 @@ public class FitxategienOperazioak {
 		}
 	}
 
+	/**
+	 * Ezabatu erregistroa logikoa.
+	 *
+	 * @param fitxategia, gure fitxategia
+	 * @param sc          , eskanerra
+	 */
 	public static void ezabatuErregistroaLogikoa(File fitxategia, Scanner sc) {
 		System.out.println("Sartu ezabatu nahi duzun erregistroaren kodea:");
-		String kodeaEzabatu = sc.nextLine().trim(); // Leer el código del registro a eliminar
+		String kodeaEzabatu = sc.nextLine().trim(); /// irakurri kodea
 		boolean found = false;
 
 		try (RandomAccessFile raf = new RandomAccessFile(fitxategia, "rw")) {
-			// Saltar el encabezado
+			// Paises1.0 salto egin
 			raf.readLine();
 
-			// Buscar el registro a eliminar
+			// bilatue rregistroa
 			long posicionInicial = raf.getFilePointer();
 			String line;
 
 			while ((line = raf.readLine()) != null) {
 				String[] fields = line.split(";");
-				if (fields.length >= 6) { // Asegurarse de que hay suficientes campos
+				if (fields.length >= 6) {
 					String codigo = fields[0].trim();
 
-					// Comprobar si el código coincide con el que se quiere eliminar
 					if (codigo.equals(kodeaEzabatu)) {
-						// Realizar borrado lógico
-						raf.seek(posicionInicial); // Volver al inicio del registro
+
+						raf.seek(posicionInicial);
 						String registroBorrado = String.format("%-5s;%s;%s;%s;%s;%s\n", "-" + kodeaEzabatu, fields[1],
 								fields[2], fields[3], fields[4], fields[5]);
 						raf.writeBytes(registroBorrado);
@@ -242,7 +259,7 @@ public class FitxategienOperazioak {
 						break;
 					}
 				}
-				posicionInicial = raf.getFilePointer(); // Actualizar la posición para el siguiente registro
+				posicionInicial = raf.getFilePointer();
 			}
 
 			if (!found) {
@@ -253,9 +270,14 @@ public class FitxategienOperazioak {
 		}
 	}
 
+	/**
+	 * Erakutsi ezabatutako erregistroak.
+	 *
+	 * @param fitxategia , gure fitxategia
+	 */
 	public static void erakutsiEzabatutakoErregistroak(File fitxategia) {
 		try (RandomAccessFile raf = new RandomAccessFile(fitxategia, "r")) {
-			// Saltar el encabezado
+			// Paises 1.0 salto egin
 			raf.readLine();
 
 			boolean found = false;
@@ -268,7 +290,7 @@ public class FitxategienOperazioak {
 				if (fields.length >= 6) {
 					String kodea = fields[0].trim();
 
-					// Comprobar si el código tiene un guion al inicio
+					// konprobatu gidoia duen hasieran eta balin badu erakutsi
 					if (kodea.startsWith("-")) {
 						String estatua = fields[1].trim();
 						int biziEsperantza = Integer.parseInt(fields[2].trim());
@@ -293,10 +315,16 @@ public class FitxategienOperazioak {
 		}
 	}
 
+	/**
+	 * Lortu hurrengo kodea.
+	 *
+	 * @param fitxategia, gure fitxategia
+	 * @return hurrengo kdoea
+	 */
 	private static int lortuHurrengoKodea(File fitxategia) {
-		boolean[] kodeakErabilita = new boolean[1000]; // Suponemos un máximo de 1000 códigos
+		boolean[] kodeakErabilita = new boolean[1000];
 		try (RandomAccessFile raf = new RandomAccessFile(fitxategia, "r")) {
-			// Saltar el encabezado
+
 			raf.readLine();
 
 			String line;
@@ -304,7 +332,7 @@ public class FitxategienOperazioak {
 				String[] fields = line.split(";");
 				if (fields.length >= 1) {
 					String kodeaStr = fields[0].trim();
-					if (!kodeaStr.startsWith("-")) { // Solo registrar códigos no eliminados
+					if (!kodeaStr.startsWith("-")) {
 						int kodea = Integer.parseInt(kodeaStr);
 						kodeakErabilita[kodea] = true;
 					}
@@ -314,39 +342,44 @@ public class FitxategienOperazioak {
 			System.out.println("Errorea kodeak egiaztatzen: " + e.getMessage());
 		}
 
-		// Encontrar el primer código libre
 		for (int i = 0; i < kodeakErabilita.length; i++) {
 			if (!kodeakErabilita[i]) {
 				return i;
 			}
 		}
-		return -1; // Si no hay códigos disponibles (lo cual no debería ocurrir)
+		return -1; // Ez badago koderik eskuragarri
 	}
 
+	/**
+	 * Gehitu erregistroa.
+	 *
+	 * @param fitxategia , gure fitxategia
+	 * @param sc         , eskanerra
+	 */
 	public static void gehituErregistroa(File fitxategia, Scanner sc) {
-		// Generar código automáticamente
+		// Kodea sortu
 		int kodea = lortuHurrengoKodea(fitxategia);
 
-		// Solicitar el resto de los datos
+		// Datuak eskatu
 		System.out.println("Sartu estatua:");
 		String estatua = sc.nextLine().trim();
 		System.out.println("Sartu bizi esperantza:");
 		int biziEsperantza = sc.nextInt();
-		sc.nextLine(); // Consumir salto de línea
+		sc.nextLine();
 		System.out.println("Sartu data sortu (yyyy-MM-dd):");
 		String dataSortu = sc.nextLine().trim();
 		System.out.println("Sartu poblazioa:");
 		double poblazioa = sc.nextDouble();
-		sc.nextLine(); // Consumir salto de línea
+		sc.nextLine();
 		System.out.println("Sartu kapitala:");
 		String kapitala = sc.nextLine().trim();
 
-		// Formatear el nuevo registro
+		// Fromatua eman
 		String record = String.format("%-5d;%-20s;%03d;%-10s;%-15.0f;%-15s\n", kodea, estatua, biziEsperantza,
 				dataSortu, poblazioa, kapitala);
 
 		try (RandomAccessFile raf = new RandomAccessFile(fitxategia, "rw")) {
-			// Posicionarse al final del archivo y escribir el nuevo registro
+
 			raf.seek(fitxategia.length());
 			raf.writeBytes(record);
 			System.out.println("Erregistro berria gehitu da fitxategian.");
@@ -354,63 +387,69 @@ public class FitxategienOperazioak {
 			System.out.println("Errorea erregistroa gehitzean: " + e.getMessage());
 		}
 	}
+
+	/**
+	 * Aldatu erregistroa.
+	 *
+	 * @param fitxategia , gure fitxategia
+	 * @param sc         , eskanerra
+	 */
 	public static void aldatuErregistroa(File fitxategia, Scanner sc) {
-	    // Solicitar el código del registro a modificar
-	    System.out.println("Sartu aldatu nahi duzun kodea:");
-	    int kodeaAldatu = sc.nextInt();
-	    sc.nextLine(); // Consumir salto de línea
 
-	    // Crear una lista temporal para almacenar los registros del archivo
-	    List<String> erregistroak = new ArrayList<>();
-	    boolean aurkituta = false;
+		System.out.println("Sartu aldatu nahi duzun kodea:");
+		int kodeaAldatu = sc.nextInt();
+		sc.nextLine();
 
-	    try (RandomAccessFile raf = new RandomAccessFile(fitxategia, "r")) {
-	        // Leer todos los registros y almacenarlos en la lista temporal
-	        String line;
-	        while ((line = raf.readLine()) != null) {
-	            String[] fields = line.split(";");
-	            if (fields.length > 0 && fields[0].trim().equals(String.valueOf(kodeaAldatu)) && !fields[0].trim().startsWith("-")) {
-	                // Solicitar los nuevos datos para el registro
-	                System.out.println("Sartu estatua berria:");
-	                String estatua = sc.nextLine().trim();
-	                System.out.println("Sartu bizi esperantza berria:");
-	                int biziEsperantza = sc.nextInt();
-	                sc.nextLine(); // Consumir salto de línea
-	                System.out.println("Sartu data sortu berria (yyyy-MM-dd):");
-	                String dataSortu = sc.nextLine().trim();
-	                System.out.println("Sartu poblazioa berria:");
-	                double poblazioa = sc.nextDouble();
-	                sc.nextLine(); // Consumir salto de línea
-	                System.out.println("Sartu kapitala berria:");
-	                String kapitala = sc.nextLine().trim();
+		// Gure erregistroak gordetzeko zerrenda temporala
+		List<String> erregistroak = new ArrayList<>();
+		boolean aurkituta = false;
 
-	                // Formatear el registro actualizado
-	                line = String.format("%-5d;%-20s;%03d;%-10s;%-15.0f;%-15s", kodeaAldatu, estatua, biziEsperantza, dataSortu, poblazioa, kapitala);
-	                aurkituta = true;
-	            }
-	            // Agregar el registro (modificado o no) a la lista
-	            erregistroak.add(line);
-	        }
-	    } catch (IOException e) {
-	        System.out.println("Errorea fitxategia irakurtzean: " + e.getMessage());
-	        return;
-	    }
+		try (RandomAccessFile raf = new RandomAccessFile(fitxategia, "r")) {
 
-	    // Si el código no se encontró, informar al usuario
-	    if (!aurkituta) {
-	        System.out.println("Errorea: kodea " + kodeaAldatu + " ez da aurkitu fitxategian.");
-	        return;
-	    }
+			String line;
+			while ((line = raf.readLine()) != null) {
+				String[] fields = line.split(";");
+				if (fields.length > 0 && fields[0].trim().equals(String.valueOf(kodeaAldatu))
+						&& !fields[0].trim().startsWith("-")) {
 
-	    // Sobrescribir el archivo con los registros actualizados
-	    try (PrintWriter pw = new PrintWriter(new FileWriter(fitxategia))) {
-	        for (String erregistroa : erregistroak) {
-	            pw.println(erregistroa);
-	        }
-	        System.out.println("Erregistroa eguneratu da kodearekin: " + kodeaAldatu);
-	    } catch (IOException e) {
-	        System.out.println("Errorea fitxategia idaztean: " + e.getMessage());
-	    }
+					System.out.println("Sartu estatua berria:");
+					String estatua = sc.nextLine().trim();
+					System.out.println("Sartu bizi esperantza berria:");
+					int biziEsperantza = sc.nextInt();
+					sc.nextLine();
+					System.out.println("Sartu data sortu berria (yyyy-MM-dd):");
+					String dataSortu = sc.nextLine().trim();
+					System.out.println("Sartu poblazioa berria:");
+					double poblazioa = sc.nextDouble();
+					sc.nextLine();
+					System.out.println("Sartu kapitala berria:");
+					String kapitala = sc.nextLine().trim();
+
+					line = String.format("%-5d;%-20s;%03d;%-10s;%-15.0f;%-15s", kodeaAldatu, estatua, biziEsperantza,
+							dataSortu, poblazioa, kapitala);
+					aurkituta = true;
+				}
+				// Gehitu erregistroak
+				erregistroak.add(line);
+			}
+		} catch (IOException e) {
+			System.out.println("Errorea fitxategia irakurtzean: " + e.getMessage());
+			return;
+		}
+
+		if (!aurkituta) {
+			System.out.println("Errorea: kodea " + kodeaAldatu + " ez da aurkitu fitxategian.");
+			return;
+		}
+
+		try (PrintWriter pw = new PrintWriter(new FileWriter(fitxategia))) {
+			for (String erregistroa : erregistroak) {
+				pw.println(erregistroa);
+			}
+			System.out.println("Erregistroa eguneratu da kodearekin: " + kodeaAldatu);
+		} catch (IOException e) {
+			System.out.println("Errorea fitxategia idaztean: " + e.getMessage());
+		}
 	}
 
 }
